@@ -13,14 +13,16 @@ def menu():
         print(encrypt(msg,shift))
     
     elif val == "2":
-        encrypted = input("Encrypted: ")
+        encrypted = input("Encrypted Message: ")
         shift = input("Shift (leave blank if you don't know): ")
         
+
         if shift == "":
-            decrypt(encrypted)
-            
+            print(decrypt_brute(encrypted))
+                  
         else:
-            decrypt(encrypted, shift)
+            shift = int(shift)
+            print(decrypt(encrypted,shift))
 
     else:
         print("That is not an option")
@@ -53,24 +55,39 @@ def encrypt(msg, shift):
     return answer
 
 def decrypt(encrypted, shift):
-    return "placeholder2"
+    answer = ""
+
+    for i in range(len(encrypted)):
+        
+        char = encrypted[i]
+            
+        if char.isalnum():        
+            if (char.isupper):
+                    #ord gets the ascii code of a character
+                answer += chr((ord(char)+ 26-shift-65)% 26 +65)
+
+            else:
+                answer += chr((ord(char)+ 26-shift-97)% 26 +97)
+        else:
+            answer+=char
+
+    return answer
+ 
 
 
-def decrypt(encrypted):
+def decrypt_brute(encrypted):
     # Bruteforce the message by testing all possible shifts
-    return "placeholder3"
+
+    possible_answers = ""
+    for i in range (0,25):
+        possible_answers += "Shift "+ str(i) +": " + decrypt(encrypted,i) + '\n'
+        
+    return possible_answers
 
 
 
+menu()
 
-#menu()
 
-# x = encrypt("FLAG{ATTACK}",4)
 
-#EXXEGO
-
-char = 'E'
-shift = 4
-x = chr((ord(char)+ 26-shift-65)% 26 +65)
-print(x)
 
